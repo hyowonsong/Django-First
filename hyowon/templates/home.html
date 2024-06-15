@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>shkim Django Applications</h2>
+    <ul>
+        {% for key, value in verbose_dict.items %}
+            {% if value.url_name %}
+                <li><a href="{% url value.url_name %}">{{ value.verbose_name }}</a></li>
+            {% else %}
+                <li>{{ value }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock content %}

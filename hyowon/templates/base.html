@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Amazing Site{% endblock %}</title>
+    <!-- 부트스트랩 추가 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!-- base.css 추가 -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <!-- 부트스트랩 Javascript 추가 (필요시) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-ouJ6ISwC6j5onz4H7H3U3vFnpSmg5JRMdS+L0Cv6z5c3g/ApT0sAV12peRSQrN0J" crossorigin="anonymous"></script>
+</head>
+
+<body>
+<!-- 네비게이션바 -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'polls:index' %}">Polls</a>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- navbar-collapse 클래스 제거 -->
+        <div id="navbarSupportedContent">
+            <!-- ml-auto 클래스 제거하여 좌측으로 정렬 -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    {% if user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a>
+                    {% else %}
+                    <a class="nav-link" href="{% url 'common:login' %}">로그인</a>
+                    {% endif %}
+                </li>
+                <li>
+                    {% if not user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'common:signup' %}">회원가입</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- 사이드바 -->
+<div id="sidebar">
+    {% block sidebar %}
+    <ul>
+        <li><a href="{% url 'polls:index' %}">Polls Home</a></li>
+        <li><a href="/admin/">Admin</a></li>
+    </ul>
+    {% endblock %}
+</div>
+
+<!-- 컨텐츠 영역 -->
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>
